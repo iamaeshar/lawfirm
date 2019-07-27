@@ -1,0 +1,69 @@
+	<?php 
+		session_start(); 
+		if(!isset($_SESSION['admin_name'])) {
+			header("Location: index.html");
+		}
+	?>
+	<?php include('inc/links.html'); ?>
+    </head>
+<body>
+	<?php include('inc/header.html'); ?>
+	<main id="main-body">
+    	<aside id="sidebar">
+    		<?php include('inc/navbar.html') ?>
+    	</aside>
+		<div class="contents">
+			<section class="upper-sec">
+				<div class="card">
+				    <div aria-label="breadcrumb" role="navigation">
+					  	<ol class="breadcrumb">
+					  		List Of Subscribed User
+					  	</ol>
+					</div>
+					<div class="card-body">
+						<div class="container-fluid">
+							<table class="table table-bordered text-center">
+							    <thead>
+							        <tr>
+							            <th class="text-center">SN</th>
+							            <th>Email ID</th>
+							            <th>Subscription Date</th>
+							            <th>Subscription Time</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							    	<?php 
+							    		require_once('php/dbconnect.php');
+
+							    		$sql = "SELECT * FROM subscriber";
+							    		$res = $conn->query($sql);
+							    		if($res->num_rows > 0){
+							    			while($row = $res->fetch_assoc()){
+							    				echo "
+											        <tr>
+											            <td>$row[subs_id]</td>
+											            <td>$row[subs_email]</td>
+											            <td>$row[subscribed_on]</td>
+											            <td>$row[subscribed_at]</td>
+											        </tr>
+							    				";
+							    			}
+							    		}else{
+							    			echo "
+							    				<tr>
+							    					<td colspan='4'>
+							    						No Data Found !!
+							    					</td>
+							    				</tr>
+							    			";
+							    		}	
+							    	?>
+							    </tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>		
+	</main>
+    <?php include('inc/footer.html') ?>

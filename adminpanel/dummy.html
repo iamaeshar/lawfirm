@@ -1,0 +1,32 @@
+	<?php 
+		session_start(); 
+		if(!isset($_SESSION['admin_name'])) {
+			header("Location: index.html");
+		}
+	?>
+	<?php include('inc/links.html'); ?>
+    </head>
+<body>
+	<?php include('inc/header.html'); ?>
+	<main id="main-body">
+    	<aside id="sidebar">
+    		<?php include('inc/navbar.html') ?>
+    	</aside>
+		<div class="contents">
+			<section class="upper-sec">
+				<div class="card">
+				    <div aria-label="breadcrumb" role="navigation">
+					  	<ol class="breadcrumb">
+					  		Breadcrumb Info
+					  	</ol>
+					</div>
+					<div class="card-body">
+						<div class="container-fluid">
+
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>		
+	</main>
+    <?php include('inc/footer.html') ?>

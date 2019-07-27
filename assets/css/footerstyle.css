@@ -1,0 +1,54 @@
+.bg-footer {
+    background-color: #1d1b1c;
+}
+
+.footer-link-list {
+    list-style: none;
+}
+
+.footer-link-list li a {
+    position: relative;
+    text-decoration: none;
+}
+
+/*replace the content value with the
+corresponding value from the list below*/
+
+.footer-link-list li a:before {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    margin-right: 16px;
+    content: "\f054";
+}
+
+#social-link {
+    padding: 12px 0px;
+}
+
+#social-link a {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px dashed #b6b6b6;
+    color: #b6b6b6;
+    padding: 9px 14px;
+}
+
+.social-link-container div:nth-child(2) a{
+    padding: 6px 13px!important;
+}
+
+.social-link-container div:nth-child(3) a{
+    padding: 8px 13px!important;
+}
+
+.social-link-container div:nth-child(4) a{
+    padding: 7px 12px!important;
+}
+
+.social-link-container div:nth-child(5) a{
+    padding: 7px 13px!important;
+}

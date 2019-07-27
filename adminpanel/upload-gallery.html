@@ -1,0 +1,136 @@
+	<?php 
+		session_start(); 
+		if(!isset($_SESSION['admin_name'])) {
+			header("Location: index.html");
+		}
+	?>
+	<?php include('inc/links.html'); ?>
+	<link rel="stylesheet" type="text/css" href="css/gallerystyle.css">
+<body>
+	<?php include('inc/header.html'); ?>
+	<main id="main-body">
+    	<aside id="sidebar">
+    		<?php include('inc/navbar.html') ?>
+    	</aside>
+		<div class="contents">
+			<section id="upload-gallery-sec" class="upper-sec">
+				<div class="card">
+				    <div aria-label="breadcrumb" role="navigation">
+					  	<ol class="breadcrumb">
+					  		<div>
+					  			<button onclick="history.go(-1);" class="btn btn-info" type="button">
+									<i class="fas fa-chevron-left"></i>&nbsp; Back
+								</button>
+					  		</div>
+					  	</ol>
+					</div>
+					<div class="card-body">
+						<div class="container-fluid">
+							<div class="form-div">
+								<div class="sm-box-container border">
+									<div aria-label="breadcrumb" role="navigation">
+									  	<ol class="breadcrumb">
+									  		Upload Gallery Image and Write Image Description
+									  	</ol>
+									</div>
+									<form class="p-3" name="gallery_form">
+										<div class="custom-file">
+										    <input type="file" id="galleryimgid" name="galleryimg" class="form-control">
+										</div>
+										<div class="space"></div>
+									  	<div class="form-group">
+									    	<label for="descid">Image Description</label>
+										    <textarea class="form-control" id="descid" rows="5" cols="20" name="img_desc"></textarea>
+									  	</div>
+									  	<div class="text-center">
+									  		<button class="btn btn-primary btn-round" type="submit">
+												<i class="fas fa-upload"></i> Upload
+											</button>
+									  	</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>		
+	</main>
+
+    <!-- Form Submit -->
+	<script type="text/javascript">
+		$(function() {
+
+			$("form[name='gallery_form']").validate({
+				rules: {
+					galleryimg: {
+						required: true,
+						extension: 'jpg|png|jpeg|gif'
+					},
+					img_desc: 'required'
+				},
+				messages: {
+					galleryimg: {
+						required: 'Please Choose a Image',
+						extension: 'Please choose a valid File!'
+					},
+					img_desc: 'Please Write Image Description'
+				},
+				submitHandler: function(form){
+					var galleryimg = $('form').find('#galleryimgid')[0].files[0];
+					var desc = $('form').find('#descid').val();
+
+					var fd = new FormData();
+					fd.append('img',galleryimg);
+					fd.append('desc',desc);
+
+					$.ajax({
+                        url:'php/upload_gallery_img.php',
+                        type:'POST',	
+                        data: fd,
+				        contentType: false,
+				        processData: false,
+                        beforeSend: ()=>{
+                            $('.loader-div').show();
+                        },
+                        success:(resp)=>{
+                            
+                            resp = JSON.parse(resp);
+                            
+                            if (resp.status) {
+                                
+                                $('.success-message-div').addClass('message-show').removeClass('message-hide');
+                                $('.success-message-div > p').text('Successfully Uploaded!!');
+                                
+                                setInterval(function() {
+                                    window.location.href = 'dashboard-gallery.html';
+                                },2000);
+                            }else{
+    
+                                $('.error-message-div').addClass('message-show').removeClass('message-hide');
+    
+                                $('.error-message-div > p').text('Error! Please Try after sometime !!');    
+                            }
+    
+                            setTimeout(function() {
+                                $('.success-message-div').addClass('message-hide').removeClass('message-show');
+                            },3000);
+    
+                            $('form')[0].reset();
+                        },
+                        error: ()=>{
+                            $('.error-message-div').addClass('message-show').removeClass('message-hide');
+                            $('.error-message-div > p').text('Something went wrong! Please try after sometime');
+                            setTimeout(function() {
+                                $('.error-message-div').addClass('message-hide').removeClass('message-show');
+                            },3500);
+                        },
+                        complete: ()=>{
+                            $('.loader-div').hide();
+                        }
+                    });
+				}
+			});
+		});
+	</script>
+    <?php include('inc/footer.html') ?>

@@ -1,0 +1,43 @@
+#service-banner {
+    background: url(../img/home-banner.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.service-container {
+    overflow: hidden;
+}
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    top: 78%;
+    right: 0;
+    left: 0;
+    padding: 4px;
+    text-align: center;
+    transition: all 0.2s linear;
+}
+
+.layer p{
+    text-align: center;
+    display: inline-block;
+}
+
+@media(min-width: 800px) and (max-width:992px) {
+    .layer {
+        top: 84%;
+    }
+}
+
+@media(max-width: 576px) {
+    .layer {
+        bottom: 0;
+        top: 0;
+    }
+}
+
+.service-container:hover .layer {
+    bottom: 0;
+    top: 0;
+}

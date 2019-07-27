@@ -1,0 +1,32 @@
+<div class="navbar-head border-bottom">
+	<div class="profile-container">
+		<div class="gallery_img_container">
+			<img src="../storage/<?php echo $_SESSION['admin_pic'] ?>">
+			
+			<div class='img_layer'>
+					
+				<a href="../storage/<?php echo $_SESSION['admin_pic'] ?>" data-lightbox='profile_pic'><button class='btn btn-sm btn-info btn-icon btn-round'><i class='fas fa-eye'></i></button></a>
+				
+				<button class='btn btn-sm btn-danger btn-icon btn-round mt-3' onclick="profilePicAlert()"><i class="far fa-edit"></i></button>
+
+			</div>
+
+		</div>
+	</div>
+	<div class="profile-name m-2">
+		<h4 class="m-0"><?php echo $_SESSION['admin_name'] ?></h4>
+	</div>
+</div>
+<nav class="navbar-container">
+	<ul class="nav flex-column justify-content-center">
+	  <li class="nav-item">
+	    <a class="nav-link active" href="dashboard.html"><i class="fas fa-tachometer-alt"></i>&nbsp; Dashboard</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="dashboard-gallery.html"><i class="far fa-images"></i>&nbsp; Gallery</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="subscribed-user.html"><i class="fas fa-user-tag"></i>&nbsp; User Subscription</a>
+	  </li>
+	</ul>
+</nav>

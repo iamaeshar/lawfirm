@@ -1,0 +1,33 @@
+#contact-banner {
+    background: url(../img/home-banner.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+/* Contact Form */
+
+#contact-form .form-control {
+    height: 54px;
+    padding: 0px 0px 4px 12px;
+    border: 1px solid #888;
+    border-radius: 0px;
+}
+
+#contact-form .form-control::placeholder {
+    color: #000;
+}
+
+#contact-form textarea.form-control {
+    height: 122px;
+    padding: 6px 0px 0px 12px;
+    caret-color: #000;
+}
+
+.submit-btn {
+    float: right;
+}
+
+.submit-btn button {
+    background-color: #861414;
+    padding: 8px 16px;
+}

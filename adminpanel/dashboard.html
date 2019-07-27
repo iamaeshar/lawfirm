@@ -1,0 +1,55 @@
+	<?php 
+		session_start(); 
+		if(!isset($_SESSION['admin_name'])) {
+			header("Location: index.html");
+		}
+	?>
+	<?php include('inc/links.html'); ?>
+    </head>
+<body>
+	<?php include('inc/header.html'); ?>
+	<main id="main-body">
+    	<aside id="sidebar">
+    		<?php include('inc/navbar.html') ?>
+    	</aside>
+		<div class="contents">
+			<section id="dashboard-sec">
+				<?php 
+					require_once('php/dbconnect.php');
+
+					$sql1 = "SELECT COUNT(subs_id) AS subscriberCount FROM subscriber";
+					$subsRes = $conn->query($sql1);
+					if($subsRes-> num_rows > 0){
+						$row = $subsRes->fetch_assoc();
+						$subsCount = $row['subscriberCount'];
+					}else{
+						$subsCount = 0;
+					}
+				?>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-12">
+							<div class="card text-center">
+							  <div class="card-body">
+							    <h4 class="card-title">User Subscriptions</h4>
+							    <h2 class="card-text text-primary"><?php echo $subsCount; ?></h2>
+							    <a href="subscribed-user.html" class="card-link text-info">See Full List </a>
+							  </div>
+							</div>
+						</div>
+						<!-- <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+							<div class="card">
+							  <div class="card-body">
+							    <h4 class="card-title">Card title</h4>
+							    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							    <a href="#" class="card-link">Card link</a>
+							    <a href="#" class="card-link">Another link</a>
+							  </div>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</section>
+		</div>		
+	</main>
+    <?php include('inc/footer.html') ?>

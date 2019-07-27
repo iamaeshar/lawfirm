@@ -1,0 +1,39 @@
+#dashboard-banner {
+    background: url(../img/home-banner.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+#appointmentModal label {
+    font-weight: 600;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.table-container table {
+    min-width: 750px;
+}
+
+/* Tabs*/
+
+.nav-tabs .nav-link.active {
+    color: #f3f3f3;
+    background-color: #861414;
+    font-weight: bold;
+}
+
+.nav-tabs .nav-link {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+@media(min-width: 650px) {
+    #meeting-sec nav {
+        width: 50%;
+    }
+    #clear {
+        display: none;
+    }
+}

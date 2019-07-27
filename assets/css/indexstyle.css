@@ -1,0 +1,158 @@
+/* Banner */
+
+#home-banner {
+    background: url(../img/home-banner.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+#home-banner {
+    height: 225px;
+}
+
+@media (min-width: 480px) {
+    #home-banner {
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    #home-banner {
+        height: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    #home-banner {
+        height: 500px;
+    }
+}
+
+/* ABout US */
+
+.about-text-container {
+    top: -4rem;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media(min-width: 890px) and (max-width: 1007px) {
+    .abs-height {
+        min-height: 200px;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 890px) {
+    .abs-height {
+        min-height: 240px;
+    }
+}
+
+@media(min-width: 670px) and (max-width: 768px) {
+    .abs-height {
+        min-height: 200px;
+    }
+}
+
+@media(min-width:510px) and (max-width: 670px) {
+    .abs-height {
+        min-height: 220px;
+    }
+}
+
+@media(max-width: 510px) {
+    .abs-height {
+        min-height: 320px;
+    }
+}
+
+/* Services */
+
+.main-heading {
+    background-color: #fff;
+    padding: 0px 32px;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+}
+
+@media(max-width: 1153px) {
+    .main-heading {
+        top: -26px;
+        left: 0;
+        transform: none;
+    }
+}
+
+@media(max-width: 612px) {
+    .main-heading {
+        font-size: 20px;
+        top: -18px;
+    }
+}
+
+.service-container {
+    overflow: hidden;
+}
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    top: 80%;
+    right: 0;
+    left: 0;
+    padding: 4px;
+    text-align: center;
+    transition: all 0.2s linear;
+}
+
+.layer p {
+    text-align: center;
+    display: inline-block;
+}
+
+@media(min-width: 800px) and (max-width:992px) {
+    .layer {
+        top: 84%;
+    }
+}
+
+@media(max-width: 576px) {
+    .layer {
+        bottom: 0;
+        top: 0;
+    }
+}
+
+.service-container:hover .layer {
+    bottom: 0;
+    top: 0;
+}
+
+/* Contact Form */
+
+#contact-form .form-control {
+    height: 54px;
+    padding: 0px 0px 4px 12px;
+    border: 1px solid #888;
+    border-radius: 0px;
+}
+
+#contact-form .form-control::placeholder {
+    color: #000;
+}
+
+#contact-form textarea.form-control {
+    height: 122px;
+    padding: 6px 0px 0px 12px;
+    caret-color: #000;
+}
+
+.submit-btn {
+    float: right;
+}
+
+.submit-btn button {
+    background-color: #861414;
+    padding: 8px 16px;
+}

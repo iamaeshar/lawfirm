@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<?php include('inc/header.html'); ?>
+
+	<title>Lawfirm - Contact</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/css/contactstyle.css">
+</head>
+
+<body>
+
+	<!-- navbar -->
+	<?php include("inc/navbar.html"); ?>
+	<!-- //navbar -->
+
+	<!-- Banner -->
+	<section id="contact-banner" class="banner-sec"></section>
+	<!-- //Banner -->
+
+	<!-- Contact Form @ Home -->
+	<section id="services-at-home" class="p-4">
+		<form id="contact-form" name="contact-form">
+			<div class="container-fluid">
+				<h3 class="mb-0">CONTACT</h3>
+				<span class="bar-line bg-dark"></span>
+				<div class="row pt-4">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" name="user_name" class="form-control" placeholder="Enter your name">
+						</div>
+
+						<div class="form-group">
+							<input type="email" name="user_email" class="form-control" placeholder="Enter your email">
+						</div>
+
+						<div class="form-group">
+							<input type="text" name="user_phone" class="form-control"
+								placeholder="Enter your 10 digit mobile number">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<select class="form-control" id="sel1" name="user_query_about">
+								<option value="default">Related About</option>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+						</div>
+
+
+						<div class="form-group">
+							<textarea cols="20" rows="5" class="form-control" placeholder="Your Message"
+								name="user_query"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="submit-btn">
+					<button class="btn-danger">SEND INFORMATION</button>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</form>
+	</section>
+	<!-- //Contact Form @ Home -->
+	
+
+	<!-- Footer -->
+	<?php include("inc/footer.html"); ?>
+	<!-- //Footer -->
+	
+	<script type="text/javascript">
+
+		// Select Tag Rule rule here
+		$.validator.addMethod("valueNotEquals", function (value, element, arg) {
+			return arg !== value;
+		}, "Value must not equal arg.");
+
+		/*Contact Form Validation*/
+		$(function () {
+			$("form[name='contact-form']").validate({
+
+				rules: {
+					user_name: "required",
+
+					user_email: {
+						required: true,
+						email: true
+					},
+
+					user_phone: {
+						required: true,
+						maxlength: 10,
+						minlength: 10,
+						digits: true
+					},
+
+					user_query_about: { valueNotEquals: "default" },
+
+					user_query: {
+						required: true,
+						minlength: 20
+					}
+				},
+
+				messages: {
+					user_name: "Please enter your name",
+
+					user_email: {
+						required: "Please enter your email address",
+						email: "Please enter a valid email address",
+					},
+
+					user_phone: {
+						required: "Please enter your mobile number",
+						digits: 'Please enter valid mobile number',
+						maxlength: 'Please enter 10 Digit mobile number',
+						minlength: 'Please enter 10 Digit mobile number',
+					},
+
+					user_query_about: { valueNotEquals: "Please select an item!" },
+
+					user_query: {
+						required: "Please enter your enter message",
+						minlength: "Your message should be mininum of 20 characters"
+					}
+				},
+
+				submitHandler: function (form) {
+					// var name = $('#nameid').val();
+					// var email = $('#emailid').val();
+					// var phone = $('#phoneid').val();
+					// var msg = $('#msgid').val();
+
+					// $.ajax({
+					// 	url: "php/mailcontactdata.php",
+					// 	data: {
+					// 		name: name,
+					// 		email: email,
+					// 		phone: phone,
+					// 		msg: msg
+					// 	},
+					// 	type: 'POST',
+					// 	beforeSend: () => {
+					// 		$('.loader-div').show();
+					// 	},
+					// 	success: (data) => {
+					// 		if (data) {
+					// 			$('.message-div').addClass('message-show').removeClass('message-hide');
+					// 			$('.message-div > p').text('Thank you! We will get you soon!');
+					// 			setTimeout(function () {
+					// 				$('.message-div').addClass('message-hide').removeClass('message-show');
+					// 			}, 3000);
+					// 		}
+					// 		$('#contact-form')[0].reset();
+					// 	},
+					// 	error: () => {
+					// 		$('.message-div').addClass('message-show').removeClass('message-hide');
+					// 		$('.message-div > p').text('Something went wrong! Please try after sometime');
+					// 		setTimeout(function () {
+					// 			$('.message-div').addClass('message-hide').removeClass('message-show');
+					// 		}, 3500);
+					// 	},
+					// 	complete: () => {
+					// 		$('.loader-div').hide();
+					// 	}
+					// });
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

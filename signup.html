@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <?php include('inc/header.html'); ?>
+
+    <title>Lawfirm - Meet to lawyer</title>
+
+    <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/loginstyle.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/signupstyle.css">
+
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <?php include("inc/navbar.html"); ?>
+    <!-- //navbar -->
+
+    <section id="login-banner">
+        <div class="login-card card-shadow">
+
+            <div class="loader-overlay">
+                <div class="spinner-border text-danger"></div>
+            </div>
+
+            <div class="login-card-header bg-primary">
+                <i class="fas fa-user-plus fa-4x"></i>
+            </div>
+            <div class="login-card-body">
+                <div class="login-form-container card-shadow p-4">
+                    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+                    <div class="bootstrap-iso">
+
+                        <div class="alert alert-danger alert-dismissible d-none" id="messageAlert">
+                            <button type="button" class="close text-dark" data-dismiss="alert">&times;</button>
+                            <p id="a-message"></p>
+                        </div>
+
+                        <form name="signup-form">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label class="control-label requiredField" for="name">
+                                                Name
+                                                <span class="asteriskField">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-user">
+                                                    </i>
+                                                </div>
+                                                <input class="form-control" id="name" name="name"
+                                                    placeholder="Enter your name" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label class="control-label requiredField" for="number">
+                                                Number
+                                                <span class="asteriskField">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-phone">
+                                                    </i>
+                                                </div>
+                                                <input class="form-control" id="mob_number" name="mob_number"
+                                                    placeholder="Enter your mobile number" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label class="control-label requiredField" for="email">
+                                                Email
+                                                <span class="asteriskField">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-envelope-o  ">
+                                                    </i>
+                                                </div>
+                                                <input class="form-control" id="email" name="email"
+                                                    placeholder="Enter your email" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label class="control-label requiredField" for="password">
+                                                Password
+                                                <span class="asteriskField">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-unlock-alt">
+                                                    </i>
+                                                </div>
+                                                <input class="form-control" id="password" name="password"
+                                                    placeholder="Enter your password" type="password" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <div>
+                                        <button class="btn bg-primary">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                                <p>If you have already registered ? <a href="login-to-meet-to-lawyer.html">login</a></p>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="m-3" id="m-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include("inc/footer.html"); ?>
+    <!-- //Footer -->
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var validator = $("form[name='signup-form']").validate({
+
+                rules: {
+                    name: "required",
+
+                    email: {
+                        required: true,
+                        email: true
+                    },
+
+                    mob_number: {
+                        required: true,
+                        maxlength: 10,
+                        minlength: 10,
+                        digits: true
+                    },
+
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+
+                messages: {
+                    name: "Please enter your name",
+
+                    email: {
+                        required: "Please enter your email address",
+                        email: "Please enter a valid email address",
+                    },
+
+                    mob_number: {
+                        required: "Please enter your mobile number",
+                        digits: 'Please enter valid mobile number',
+                        maxlength: 'Please enter 10 Digit mobile number',
+                        minlength: 'Please enter 10 Digit mobile number',
+                    },
+
+                    password: {
+                        required: "Please enter your enter password",
+                        minlength: "Password should be mininum of 6 characters"
+                    }
+                },
+
+                errorPlacement: function (error, element) {
+                    $(element).parents('.form-group').append(error);
+                },
+
+                submitHandler: function (form) {
+
+                    var name = $('form').find('#name').val();
+                    var mob_number = $('form').find('#mob_number').val();
+                    var email = $('form').find('#email').val();
+                    var password = $('form').find('#password').val();
+
+                    var fd = new FormData();
+                    fd.append('name', name);
+                    fd.append('mob_number', mob_number);
+                    fd.append('email', email);
+                    fd.append('password', password);
+
+                    $.ajax({
+                        url: 'php/signup.php',
+                        type: 'POST',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+
+                        beforeSend: () => {
+                            $('.loader-overlay').addClass('show-loader');
+                        },
+
+                        success: (resp) => {
+                            
+                            resp = JSON.parse(resp);
+
+                            if (resp.status) {
+                                $('.loader-overlay').removeClass('show-loader');
+                                $('#m-message').text(resp.message);
+                                $('#messageModal').modal('show');
+                            } else {
+                                $('#a-message').text(resp.message);
+                                $('#messageAlert').removeClass('d-none');
+                            }
+                            validator.resetForm();
+                            $('form')[0].reset();
+                        },
+                        error: () => {
+                            $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                            $('#messageAlert').removeClass('d-none');
+                        },
+                        complete: () => {
+                            if ($('.loader-overlay').hasClass('show-loader')) {
+                                $('.loader-overlay').removeClass('show-loader');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

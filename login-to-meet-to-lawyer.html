@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <?php include('inc/header.html'); ?>
+
+    <title>Lawfirm - Meet to lawyer</title>
+
+    <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/loginstyle.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <?php include("inc/navbar.html"); ?>
+    <!-- //navbar -->
+
+    <section id="login-banner">
+        <div class="login-card card-shadow">
+
+            <div class="loader-overlay">
+                <div class="spinner-border text-danger"></div>
+            </div>
+
+            <div class="login-card-header bg-primary">
+                <i class="fas fa-lock fa-4x"></i>
+            </div>
+
+            <div class="login-card-body">
+                <div class="login-form-container card-shadow p-4">
+                    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+                    <div class="bootstrap-iso">
+
+                        <div class="alert alert-danger alert-dismissible d-none" id="messageAlert">
+                            <button type="button" class="close text-dark" data-dismiss="alert">&times;</button>
+                            <p id="a-message"></p>
+                        </div>
+
+                        <form method="post" name="login-form">
+
+                            <div class="form-group ">
+                                <label class="control-label requiredField" for="email">
+                                    Email
+                                    <span class="asteriskField">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </div>
+                                    <input class="form-control" id="email" name="email" type="text"
+                                        placeholder="Enter your email" />
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label requiredField" for="password">
+                                    Password
+                                    <span class="asteriskField">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-unlock-alt">
+                                        </i>
+                                    </div>
+                                    <input class="form-control" id="password" name="password"
+                                        placeholder="Enter your password" type="password" />
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <div>
+                                    <button class="btn bg-primary">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-center">Haven't created account ? <a href="signup.html">signup</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="m-3" id="m-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include("inc/footer.html"); ?>
+    <!-- //Footer -->
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            var validator = $("form[name='login-form']").validate({
+
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+
+                messages: {
+
+                    email: {
+                        required: "Please enter your email address",
+                        email: "Please enter a valid email address",
+                    },
+
+                    password: {
+                        required: "Please enter your enter password",
+                        minlength: "Password should be mininum of 6 characters"
+                    }
+                },
+
+                errorPlacement: function (error, element) {
+                    $(element).parents('.form-group').append(error);
+                },
+
+                submitHandler: function (form) {
+
+                    var email = $('form').find('#email').val();
+                    var password = $('form').find('#password').val();
+
+                    var fd = new FormData();
+                    fd.append('email', email);
+                    fd.append('password', password);
+
+                    $.ajax({
+                        url: 'php/login.php',
+                        type: 'POST',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+
+                        beforeSend: () => {
+                            $('.loader-overlay').addClass('show-loader');
+                        },
+
+                        success: (resp) => {
+
+                            resp = JSON.parse(resp);
+
+                            if (resp.status) {
+                                $('.loader-overlay').removeClass('show-loader');
+                                if(resp.verified) {
+                                    window.location.href = 'dashboard.html'
+                                }else {
+                                    $('#m-message').text(resp.message);
+                                    $('#messageModal').modal('show');
+                                }
+
+                            } else {
+                                $('#a-message').text(resp.message);
+                                $('#messageAlert').removeClass('d-none');
+                            }
+
+                            $('form')[0].reset();
+                            validator.resetForm();
+                        },
+                        error: () => {
+                            $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                            $('#messageAlert').removeClass('d-none');
+                        },
+                        complete: () => {
+                            if ($('.loader-overlay').hasClass('show-loader')) {
+                                $('.loader-overlay').removeClass('show-loader');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

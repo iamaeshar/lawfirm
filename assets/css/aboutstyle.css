@@ -1,0 +1,5 @@
+#about-banner {
+    background: url(../img/home-banner.jpg);
+    background-position: center;
+    background-size: cover;
+}

@@ -1,0 +1,80 @@
+    <?php include('inc/links.html'); ?>
+    </head>
+<body>
+    <section id="login-sec" class="jumbotron mb-0">
+        <div class="login-form-container sm-box-container">
+            <div class="card">
+                <!-- <img class="card-img-top" src="img/login-bg.jpg" alt="Card image cap"> -->
+                <div class="card-body">
+                    <h4 class="card-title mt-0">Admin Login</h4>
+                    <form name="login-form">
+                        <div class="form-group">
+                            <label for="userid">User ID</label>
+                            <input type="text" class="form-control" id="userid" aria-describedby="userIDHelp" placeholder="Enter User ID" name="user">
+                            <!-- <small id="userIDHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="passid">Password</label>
+                            <input type="password" class="form-control" id="passid" placeholder="Password" name="pass">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>            
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script type="text/javascript">
+        $(function() {
+            $("form[name='login-form']").validate({
+                rules:{
+                    user: 'required',
+                    pass: 'required'
+                },
+                messages: {
+                    name: 'Please Enter Your Name..',
+                    pass: 'Enter Your Password..'
+                },
+                submitHandler: function(form){
+                    var user = $('form').find('#userid').val();
+                    var pass = $('form').find('#passid').val();
+                    $.ajax({
+                        url:'php/login.php',
+                        data:{user:user,pass:pass},
+                        type:'POST',
+                        beforeSend: ()=>{
+                            $('.loader-div').show();
+                        },
+                        success:(resp)=>{
+                            resp = JSON.parse(resp);
+                            if (resp.status) {
+                                $('.success-message-div').addClass('message-show').removeClass('message-hide');
+                                $('.success-message-div > p').text('Successfully Logged In!');
+                                setInterval(function() {
+                                    window.location.href = 'dashboard.html';
+                                },2000);
+                            }else{
+                                $('.error-message-div').addClass('message-show').removeClass('message-hide');
+                                $('.error-message-div > p').text('Entered User ID and Password is not Correct!');    
+                            }
+                            setTimeout(function() {
+                                $('.success-message-div').addClass('message-hide').removeClass('message-show');
+                            },3000);
+                            $('form')[0].reset();
+                        },
+                        error: ()=>{
+                            $('.error-message-div').addClass('message-show').removeClass('message-hide');
+                            $('.error-message-div > p').text('Something went wrong! Please try after sometime');
+                            setTimeout(function() {
+                                $('.error-message-div').addClass('message-hide').removeClass('message-show');
+                            },3500);
+                        },
+                        complete: ()=>{
+                            $('.loader-div').hide();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <?php include('inc/footer.html') ?>

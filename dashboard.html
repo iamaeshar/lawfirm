@@ -1,0 +1,460 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['logged_in'])) {
+        header('location: login-to-meet-to-lawyer.html');
+    }
+?>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <?php include('inc/header.html'); ?>
+
+    <title>Dashboard - Lawfirm</title>
+
+    <link rel="stylesheet" href="assets/css/dashboardstyle.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css" />
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <?php include("inc/navbar.html"); ?>
+    <!-- //navbar -->
+
+    <!-- Banner -->
+    <section id="dashboard-banner" class="banner-sec"></section>
+    <!-- //Banner -->
+
+    <section id="meeting-sec" class="jumbotron mb-0">
+        <div class="container-fluid">
+            <h3 class="mb-0">YOUR APPOINTMENTS</h3>
+            <span class="bar-line bg-dark"></span>
+
+            <br /> <br />
+
+            <a class="btn bg-primary text-white pull-right" href="" data-toggle="modal" data-target="#appointmentModal">
+                <i class="fas fa-plus"></i> <b>MAKE AN APPOINTMENT</b></a>
+
+            <div class="clearfix" id="clear"></div>
+
+            <!-- Tabs -->
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-upcoming-tab" data-toggle="tab" href="#nav-upcoming"
+                        role="tab" aria-controls="nav-upcoming" aria-selected="true">Upcoming</a>
+
+                    <a class="nav-item nav-link" id="nav-expired-tab" data-toggle="tab" href="#nav-expired" role="tab"
+                        aria-controls="nav-expired" aria-selected="false">Expired</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <!-- Tab Content 1 -->
+                <div class="tab-pane fade show active" id="nav-upcoming" role="tabpanel"
+                    aria-labelledby="nav-upcoming-tab">
+
+                    <div class="table-container mat-table">
+                        <table class="table text-center table-striped bg-white">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Ticket</th>
+                                    <th>Status</th>
+                                    <th>Related</th>
+                                    <th>Query</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                        require_once('php/dbconnect.php');
+                                        $sql = "SELECT * FROM appointments, tickets WHERE appointments._id = tickets.appointment_id AND (appointments.user_id = $_SESSION[user_id] AND appointments._status = 0)";
+                                        $res = $conn->query($sql);
+                                        if ($res) {
+                                            if ($res->num_rows > 0) {
+                                                for ($i = 1 ; $row = $res->fetch_assoc(); $i++) {
+                                                    ?>
+                                <tr>
+                                    <td><?=$i ?></td>
+                                    <td class="text-primary">
+                                        <b><?=date("d-m-Y", strtotime($row['_date']));?></b></td>
+                                    <td>
+                                        <?=$row['time_slot'] == 1 ? '1:00 PM - 3:00 PM' : '3:00 PM - 5:00 PM'?>
+                                    </td>
+                                    <td class="text-primary"><b><?=$row['ticket'] ?></b></td>
+                                    <td><?=$row['_status'] == 0 ? 'VALID' : 'EXPIRED' ?></td>
+                                    <td><?=$row['related_to'] ?></td>
+                                    <td><?=substr($row['case_query'], 0, 20) . '...';?></td>
+                                </tr>
+                                <?php
+                                                }
+                                            } else {
+                                                ?>
+                                <tr>
+                                    <td colspan="7">No appointments made yet. Please click the above
+                                        button to make an
+                                        appointments
+                                    </td>
+                                </tr>
+
+                                <?php
+                                            }
+                                        } else {
+                                        }
+                                    ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab content 2 -->
+                <div class="tab-pane fade" id="nav-expired" role="tabpanel" aria-labelledby="nav-expired-tab">
+
+                    <div class="table-container mat-table">
+                        <table class="table text-center table-striped bg-white">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Ticket</th>
+                                    <th>Status</th>
+                                    <th>Related</th>
+                                    <th>Query</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                        require_once('php/dbconnect.php');
+                                        $sql = "SELECT * FROM appointments, tickets WHERE appointments._id = tickets.appointment_id AND (appointments.user_id = $_SESSION[user_id] AND appointments._status = 1)";
+                                        $res = $conn->query($sql);
+                                        if ($res) {
+                                            if ($res->num_rows > 0) {
+                                                for ($i = 1 ; $row = $res->fetch_assoc(); $i++) {
+                                                    ?>
+                                <tr>
+                                    <td><?=$i ?></td>
+                                    <td class="text-primary">
+                                        <b><?=date("d-m-Y", strtotime($row['_date']));?></b></td>
+                                    <td>
+                                        <?=$row['time_slot'] == 1 ? '1:00 PM - 3:00 PM' : '3:00 PM - 5:00 PM'?>
+                                    </td>
+                                    <td class="text-primary"><b><?=$row['ticket'] ?></b></td>
+                                    <td><?=$row['_status'] == 0 ? 'VALID' : 'EXPIRED' ?></td>
+                                    <td><?=$row['related_to'] ?></td>
+                                    <td><?=substr($row['case_query'], 0, 20) . '...';?></td>
+                                </tr>
+                                <?php
+                                                }
+                                            } else {
+                                                ?>
+                                <tr>
+                                    <td colspan="7">No appointments made yet. Please click the above
+                                        button to make an
+                                        appointments
+                                    </td>
+                                </tr>
+
+                                <?php
+                                            }
+                                        } else {
+                                        }
+                                    ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Tabs -->
+        </div>
+    </section>
+
+    <!-- Appointment Modal -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Appointment Registration</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="loader-overlay">
+                        <div class="spinner-border text-danger"></div>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible d-none" id="messageAlert">
+                        <button type="button" class="close text-dark" data-dismiss="alert">&times;</button>
+                        <p id="a-message"></p>
+                    </div>
+
+                    <form name="appointment-form" method="post">
+
+                        <div class="form-group">
+                            <label for="date_of_appointment">Choose available date: </label>
+                            <input type="text" class="form-control" id="date_of_appointment">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date_of_appointment">Select available time slot: </label>
+                            <select id="time_slot" name="time_slot" class="custom-select">
+                                <option value="1">Slot 1 (1:00 PM - 3:00 PM)</option>
+                                <option value="2">Slot 2 (3:00 PM - 5:00 PM)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+
+                            <select id="related_to" name="related_to" class="custom-select">
+                                <option value="NA">Related to: </option>
+                                <option value="Duck">Duck</option>
+                                <option value="Fish">Fish</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea cols="40" rows="5" class="form-control"
+                                placeholder="Write something about your case briefly." id="case_query"
+                                name="case_query"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn bg-primary text-white">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="m-3" id="m-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include("inc/footer.html"); ?>
+    <!-- //Footer -->
+
+    <!-- Getting Busy Dates for disabling it -->
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $('#appointmentModal').on('show.bs.modal', function (e) {
+            $.ajax({
+                url: 'php/get_available_date_and_slot.php',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+
+                beforeSend: () => {
+                    $('.loader-overlay').addClass('show-loader');
+                },
+
+                success: (resp) => {
+                    resp = JSON.parse(resp);
+
+                    if (resp.status) {
+                        $('.loader-overlay').removeClass('show-loader');
+
+                        $(function () {
+                            $('#date_of_appointment').datetimepicker({
+                                format: 'DD-MM-YYYY',
+                                daysOfWeekDisabled: ['6', '0'],
+                                minDate: Date.now(),
+                                disabledDates: resp.fullyBusyDates
+                            }).on("dp.change", function () {
+                                var selectedDate = $('#date_of_appointment').val();
+                                getSlot(selectedDate);
+                            });
+                        });
+
+                    } else {
+                        $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                        $('#messageAlert').removeClass('d-none');
+                    }
+                },
+                error: () => {
+                    $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                    $('#messageAlert').removeClass('d-none');
+                },
+                complete: () => {
+                    if ($('.loader-overlay').hasClass('show-loader')) {
+                        $('.loader-overlay').removeClass('show-loader');
+                    }
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $('#appointmentModal').on('shown.bs.modal', function (e) {
+            var selectedDate = $('#date_of_appointment').val();
+            getSlot(selectedDate);
+        });
+    </script>
+
+    <!-- getting slot of a selected date -->
+    <script>
+        function getSlot(paramSelectedDate) {
+            var fd = new FormData();
+            fd.append('selectedDate', paramSelectedDate);
+
+            $.ajax({
+                url: 'php/get_slot_of_selected_date.php',
+                type: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+
+                beforeSend: () => {
+                    $('.loader-overlay').addClass('show-loader');
+                },
+
+                success: (resp) => {
+                    busySlots = JSON.parse(resp);
+
+                    if (busySlots.status) {
+                        $('.loader-overlay').removeClass('show-loader');
+
+                        $("#time_slot option").attr('disabled', false);
+                        $("#time_slot option[value='" + busySlots.data + "']").attr('disabled', true);
+
+                    } else {
+                        $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                        $('#messageAlert').removeClass('d-none');
+                    }
+                },
+                error: () => {
+                    $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                    $('#messageAlert').removeClass('d-none');
+                },
+                complete: () => {
+                    if ($('.loader-overlay').hasClass('show-loader')) {
+                        $('.loader-overlay').removeClass('show-loader');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <!-- Send Registration Data -->
+    <script type="text/javascript">
+
+        /* Select Tag Rule rule here */
+        $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+        }, "Value must not equal arg.");
+
+        $(function () {
+
+            var validator = $("form[name='appointment-form']").validate({
+
+                rules: {
+                    date_of_appointment: "required",
+
+                    time_slot: {
+                        required: true,
+                    },
+
+                    related_to: { valueNotEquals: "Related to: " },
+
+                    case_query: {
+                        required: true,
+                        minlength: 20
+                    }
+                },
+
+                messages: {
+                    date_of_appointment: "Please choose the available date",
+
+                    time_slot: {
+                        required: "Select available time slot",
+                    },
+
+                    related_to: { valueNotEquals: "Please select an item!" },
+
+                    case_query: {
+                        required: "Please enter your query briefly",
+                        minlength: "Your query should be mininum of 20 characters"
+                    }
+                },
+
+                submitHandler: function (form) {
+                    var date_of_appointment = $('form').find('#date_of_appointment').val();
+                    var time_slot = $('form').find('#time_slot').val();
+                    var related_to = $('form').find('#related_to').val();
+                    var case_query = $('form').find('#case_query').val();
+
+                    var fd = new FormData();
+                    fd.append('date_of_appointment', date_of_appointment);
+                    fd.append('time_slot', time_slot);
+                    fd.append('related_to', related_to);
+                    fd.append('case_query', case_query);
+
+                    $.ajax({
+                        url: 'php/make_an_appointment.php',
+                        type: 'POST',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+
+                        beforeSend: () => {
+                            $('.loader-overlay').addClass('show-loader');
+                        },
+
+                        success: (resp) => {
+
+                            resp = JSON.parse(resp);
+
+                            if (resp.status) {
+                                $('.loader-overlay').removeClass('show-loader');
+
+                                $('#m-message').html("Your appointment has been registered with us. Your ticket ID is <b class='text-primary'>" + resp.ticket + '</b>. Do not share it. It will required at the time of appointment');
+
+                                $('#messageModal').modal('show');
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 3000);
+                            } else {
+                                $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                                $('#messageAlert').removeClass('d-none');
+                            }
+
+                            $('form')[0].reset();
+                            validator.resetForm();
+                        },
+                        error: () => {
+                            $('#a-message').text('Something Went Wrong. Please try after sometime.');
+                            $('#messageAlert').removeClass('d-none');
+                        },
+                        complete: () => {
+                            if ($('.loader-overlay').hasClass('show-loader')) {
+                                $('.loader-overlay').removeClass('show-loader');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
